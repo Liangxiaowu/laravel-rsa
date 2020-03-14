@@ -1,0 +1,19 @@
+{
+    "name": "xiaowu/laravel-rsa",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "xiaowu",
+            "email": "965391514@qq.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LaraRsa\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.2.0"
+    }
+}
