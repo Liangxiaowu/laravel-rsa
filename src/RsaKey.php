@@ -1,10 +1,12 @@
 <?php
 
 
-namespace App\Services\Rsa;
+namespace LaraRsa;
 
-use App\Exceptions\RsaKeyException;
-use Illuminate\Support\Facades\Storage;
+
+
+use LaraRsa\Exceptions\RsaKeyException;
+use LaraRsa\Impl\Rsa;
 
 /**
  * RSA算法类
@@ -20,24 +22,30 @@ class RsaKey extends Rsa
     public $pubKey = null;
     public $priKey = null;
 
-    public function __construct()
+    private final function __construct()
     {
-        $this->priKey = trim(Storage::get("key/private_key.pem"));
-
-//        $private = chunk_split($private, 64, "\n");
-//        $this->priKey = "-----BEGIN RSA PRIVATE KEY-----\n{$private}-----END RSA PRIVATE KEY-----\n";
-
-        $this->pubKey = trim(Storage::get("key/public_key.pem"));
-//        $public = chunk_split($public, 64, "\n");
-//        $this->pubKey = "-----BEGIN PUBLIC KEY-----\n{$public}-----END PUBLIC KEY-----\n";
-//        $this->priKey = trim(Storage::get("key/private_key.pem"));
-
+        $this->priKey = config("lararsa.private_key_file");
+        $this->pubKey  = config("lararsa.public_key_file");
         // 需要开启openssl扩展
         if (!extension_loaded("openssl")) {
             throw new RsaKeyException("RSA Error:Please open the openssl extension first",500);
         }
     }
 
+    public function test($a=0, $b=1){
+        dd("test",$a, $b);
+    }
+
+    private static $ins = null;
+
+    public static function getIns(){
+
+        if(is_null(self::$ins)){
+            self::$ins = new self();
+        }
+
+        return self::$ins ;
+    }
 
     /**
      * 生成Rsa公钥和私钥
@@ -77,7 +85,7 @@ class RsaKey extends Rsa
      * @param string $code 签名编码（base64/hex/bin）
      * @return bool|string 签名值
      */
-    public function sign($data, $code = 'base64')
+    public function createdSign($data, $code = 'base64')
     {
         $ret = false;
         if (openssl_sign($data, $ret, $this->priKey)) {
@@ -96,7 +104,7 @@ class RsaKey extends Rsa
      * @param string $code 签名编码（base64/hex/bin）
      * @return bool
      */
-    public function verify($data, $sign, $code = 'base64')
+    public function verifySign($data, $sign, $code = 'base64')
     {
         $ret = false;
         $sign = $this->_decode($sign, $code);
@@ -157,8 +165,10 @@ class RsaKey extends Rsa
         return $ret;
     }
 
-
-
+    private final function __clone()
+    {
+        // 防止克隆
+    }
 
 
 }

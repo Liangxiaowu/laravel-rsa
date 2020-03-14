@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Xiaowu\Rsa\Exceptions;
+namespace LaraRsa\Exceptions;
 
 
 use Throwable;
