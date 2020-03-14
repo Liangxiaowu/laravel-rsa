@@ -24,17 +24,17 @@ class RsaKey extends Rsa
 
     private final function __construct()
     {
-        $this->priKey = config("lararsa.private_key_file");
-        $this->pubKey  = config("lararsa.public_key_file");
+        $this->priKey = config("lararsa.private_key_file", "");
+        $this->pubKey  = config("lararsa.public_key_file", "");
         // 需要开启openssl扩展
         if (!extension_loaded("openssl")) {
             throw new RsaKeyException("RSA Error:Please open the openssl extension first",500);
         }
     }
 
-    public function test($a=0, $b=1){
-        dd("test",$a, $b);
-    }
+//    public function test($a=0, $b=1){
+//        dd("test",$a, $b);
+//    }
 
     private static $ins = null;
 
