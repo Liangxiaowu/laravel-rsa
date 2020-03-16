@@ -5,6 +5,7 @@ namespace LaraRsa;
 
 
 
+use Illuminate\Support\Facades\Storage;
 use LaraRsa\Exceptions\RsaKeyException;
 use LaraRsa\Impl\Rsa;
 
@@ -24,8 +25,9 @@ class RsaKey extends Rsa
 
     private final function __construct()
     {
-        $this->priKey = config("lararsa.private_key_file", "");
-        $this->pubKey  = config("lararsa.public_key_file", "");
+
+        $this->priKey = Storage::get(config("lararsa.private_key_file", "key/private_key.pem"));
+        $this->pubKey = Storage::get(config("lararsa.public_key_file", "key/public_key.pem"));
         // 需要开启openssl扩展
         if (!extension_loaded("openssl")) {
             throw new RsaKeyException("RSA Error:Please open the openssl extension first",500);
@@ -39,11 +41,9 @@ class RsaKey extends Rsa
     private static $ins = null;
 
     public static function getIns(){
-
         if(is_null(self::$ins)){
-            self::$ins = new self();
+            self::$ins = new RsaKey();
         }
-
         return self::$ins ;
     }
 
