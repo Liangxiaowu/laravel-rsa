@@ -34,10 +34,6 @@ class RsaKey extends Rsa
         }
     }
 
-//    public function test($a=0, $b=1){
-//        dd("test",$a, $b);
-//    }
-
     private static $ins = null;
 
     public static function getIns(){

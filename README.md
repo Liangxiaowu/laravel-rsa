@@ -15,18 +15,9 @@
 ```
 
 #### config
-生成`lararsa.php`配置文件。
+生成`config/lararsa.php`配置文件。
 ```php
     php artisan lararsa:config
-
-    return [
-        /*
-         * 目前文件只支持存放storage/app下面
-         */
-        "private_key_file"=>"key/private_key.pem",  // 私钥地址
-        "public_key_file"=>"key/public_key.pem",    // 公钥地址
-    ];
-
 ```
 #### 使用
 ```php
@@ -55,30 +46,9 @@
 ```
 
 #### 异常处理
-目前只有一个异常类`RsaKeyException`，你可以通以下方式处理异常类的返回。
-- 方式一：调用的时候处理。
-```php
-     try{
-         // 程序体
-     }catch (RsaKeyException $exception){
-         return [
-             "status_code"=>500,
-             "message"=>$exception->getMessage()
-         ];
-     }
-```
-- 方式二：全局处理，需要在项目的`app/Exceptions/Handler.php`文件里的`render`方法加入以下代码。
-```php
-    public function render($request, Exception $exception)
-    {
-        if ($exception instanceof RsaKeyException)  {
-            return $exception->render($request);
-        }
-        return parent::render($request, $exception);
-    }
-```
+异常类：`RsaKeyException.php`。
 
 #### 更新
 - 2020-03-14 create
 - 2020-03-16 更新调用
-
+- 2020-04-01 简单优化

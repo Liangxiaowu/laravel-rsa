@@ -1,8 +1,7 @@
 <?php
 return [
-    /*
-     * 目前文件只支持存放storage/app下面
-     */
-    "private_key_file"=>"key/private_key.pem",
-    "public_key_file"=>"key/public_key.pem",
+    // 私钥文件
+    "private_key_file"=>env("PRIVATE_KEY", "key/private_key.pem"),
+    // 公钥文件
+    "public_key_file"=>env("PUBLIC_KEY", "key/public_key.pem"),
 ];

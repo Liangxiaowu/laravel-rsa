@@ -20,6 +20,6 @@ class LaraRsa
 
     private static function params($name, $arguments){
         $RsaKey = RsaKey::getIns();
-        return $RsaKey ->$name(...$arguments);
+        return $RsaKey->$name(...$arguments);
     }
 }
